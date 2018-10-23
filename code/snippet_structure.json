@@ -1,0 +1,10 @@
+// Accès aux positions des bateaux du joueur #1
+structure["torpilleurs"][0]["position"]
+structure["porte_avions"][0]["position"]
+
+// Accès aux positions des bateaux du joueur #2
+structure["torpilleurs"][1]["position"]
+structure["porte_avions"][1]["position"]
+
+// Ajout d'une case que le joueur #1 a touché:
+structure["case_touchees"][0].append("C5")

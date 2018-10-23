@@ -1,0 +1,30 @@
+{
+    "monde": {
+        "etat_partie": "Non démarré",
+        "joueurs": ["joueur1", "joueur2"]
+    },
+    "case_touchees": [
+        [],
+        []
+    ],
+    "case_manquees": [
+        [], 
+        []
+    ],
+    "torpilleurs": [
+        {
+            "position": "A1",
+            "orientation": "horizontal",
+            "etat_cases": ["Intact", "Intact"]
+        }, 
+        {
+            "position": "F8",
+            "orientation": "vertical",
+            "etat_cases": ["Intact", "Intact"]
+        }
+    ],
+    "porte_avions": [],
+    "croiseurs": [],
+    "sous-marins": [],
+    "contre_torpilleurs": []
+}
