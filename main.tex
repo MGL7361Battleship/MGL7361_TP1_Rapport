@@ -84,7 +84,7 @@
 \setmarginsrb{3 cm}{2.5 cm}{3 cm}{2.5 cm}{1 cm}{1.5 cm}{1 cm}{1.5 cm}
 
 \title{Conception architecturale}								% Title
-\author{Audrey Eugène \\ Benoit Paquet \\ Michael Faille}								% Author
+\author{Audrey Eugène \\ Benoit Paquet}								% Author
 \date{\today}											% Date
 
 \makeatletter
@@ -123,7 +123,6 @@
 			\begin{flushright} \large
 			EUGA21589707 \\
 			PAQB01068505 \\
-			FAIM02128507 \\
 		\end{flushright}
 	\end{minipage}\\[2 cm]
 	
@@ -215,6 +214,8 @@ Figure: Déploiement de l'application en production
 % https://en.wikipedia.org/wiki/AOS_and_SOA
 % Excellent talk sur le functional programming https://www.youtube.com/watch?v=E8I19uA-wGY
 
+% : Ajouter comment nous les avons implémenté dans le Battleship
+
 \subsection{Styles Architecturaux}
 
 \subsubsection{Style Client/Serveur}
@@ -280,9 +281,52 @@ Au travers de cet exercice, nous voulions également accroître nos connaissance
 Ainsi, Phoenix nous a paru comme le meilleur moyen de mettre en place notre Battleship en Elixir.
 Pour notre projet, nous avons imaginé un déploiement en microservices avec l'état de l'application dans MongoDB qui est une base de données NoSQL orienté document contenant ses données en JSON. En effet, le state de notre application en JSON s'accorde parfaitement avec MongoDB et présente correctement les éléments que nous avons définis dans notre architecture. Les containers ont été pensés pour l'exécution de services que nous allons mettre en oeuvre avec Elixir.
 
+\section{Fonctionnalités développées}
+% : ~ 1 page
+% enregistrer un joueur *
+% obtenir le nom des bateaux *
+% positionner un bateau sur la grille *
+% enlever un bateau
+% ajouter un bateau aléatoirement (*)
+% faire une rotation
+% indiquer qu'un joueur est prêt à commencer *
+% indiquer que le joueur veut terminer la partie
+% on peut attaquer une position *
+% obtenir l'état de la partie
+
+Actuellement, nous avons développé les fonctionnalités qui permettent de préparer et de commencer une partie. Ainsi, nous retrouvons celles qui suivent:
+
+- Enregister un joueur: le joueur sera en mesure de se créer un profil joueur et de s'enregistrer pour pouvoir jouer quand il le souhaite.
+
+- Obtenir le nom des bateaux: le joueur aura accès au nom des différents types de bateaux afin de sélectionner celui qu'il souhaite.
+
+- Positionner un bateau sur la grille: le joueur sera en mesure de placer le bateau sélectionné sur la grille. Il sera placé obligatoirement à l'horizontal pour l'instant.
+
+- Indiquer qu'un joueur est prêt à commencer: nous voulons qu'un joueur puisse dire qu'il est prêt à commencer la partie après avoir placé ses bateaux sur la grille. Une fois les deux joueurs prêts la partie pourra commencer.
+
+- Attaquer une position: nous souhaitons qu'un joueur puisse lancer une attaque sur une position. Nous obtiendrons un message pour savoir si l'attaque a touché une cible ou non.
+
+Nous avons choisi ces fonctionnalités car elles nous ont semblé être celles "de base" pour commencer notre Battleship mais importantes pour qu'il puisse fonctionner efficacement par la suite et pour qu'il soit testable. En effet, nous avons jugé que cela ne serait pas le cas si nous avions commencé par les fonctionnalités traitant du combat (le jeu en lui même) ainsi que de celles touchant à la fin d'une partie.
+
+\section{Organisation du travail d'équipe}
+% : ~ 1/2 page
+
+Pour organiser notre travail d'équipe, nous avons établis des rencontres pour coder ensemble étant donné que ce langage est une nouveauté pour nous. Cela facilitera l'avancement de l'écriture du code, nous permettra de nous aider mutuellement directement sans avoir à patienter que l'autre coéquipier soit disponible pour répondre aux questions pour être débloqué. Cette méthode nous soutiendra également à l'apprentissage du langage pour une meilleure efficacité dans la réalisation du projet.
+
+Pour la rédaction du rapport et la préparation de la présentation, nous avons décidé de nous séparer les tâches afin que chacun de nous rédige dans le rapport. Bien entendu, nous nous sommes assuré d'avoir pris connaissance et d'avoir validé les informations que l'équipier a mis dans les documents. De plus, nous avons décidé de faire ces rédactions au fur et à mesure des idées que nous avons eu ainsi que de l'avancement du projet pour ne pas avoir à être débordés avant la fin du délai imparti pour le travail. Nous nous assurons alors d'apporter les bonnes modifications au besoin et les informations en plus pour ne rien oublier.
+
+\section{Stratégies pour assurer la qualité du projet}
+% : ~ 1 page
+
+Afin d'assurer la qualité de notre projet, nous avons mis en place plusieurs stratégies pour être sûrs que le Battleship que nous proposons soit le plus efficace et fonctionnel possible. Premièrement, nous avons élaboré des tests qui nous permettront de vérifier que les fonctionnalités implémentées fonctionnent correctement et de la façon correcte.
+
+Ensuite, nous avons réfléchis le plus possible à la manière dont nous allions concevoir notre projet: comment nous allons procéder, avec quelles fonctionnalités commencer, quelles sont celles les plus importantes et nécessaires pour qu'on puisse tester le Battleship et que nous ne soyons pas penché sur celles qui sont complémentaires voire accéssoires. Cette stratégie facilite l'avancement du projet puisque nous n'aurons pas à recommencer ou à modifier nos plans au cas où nous constatons qu'une fonctionnalité que nous implémentons n'est pas primordiale ou fondammental à notre projet. Cela nous assistera également à faire moins d'erreurs par la suite lorsque nous traiterons le code source.
+
+De plus, lors de l'écriture du code, nous avons ajouté les fonctionnalités l'une après l'autre après avoir vérifié qu'elle soit terminée complètement. Cette stratégie s'est avérée d'autant plus efficace et concrète pour nous étant donné que, comme vu précédemment, nous avons choisi de travailler ensemble sur la création du code source pour une meilleure compréhension et un meilleur apprentissage.
+
 \section{Conclusion}
 
-En définitive, nous vous avons présenté le Batlleship que nous souhaitons réaliser pour ce projet ainsi que son architecture. Ce travail nous a permis de faire des recherches plus approfondies sur le système que nous mettons en place. De ce fait, nous avons pu présenter et faire usage des patrons précédents qui sont bien établis dans le milieu et propices à ce que nous voulons développer. La réalisation de notre jeu vidéo s'est donc entamée sur des bases solides et claires pour garantir une fonctionnalité favorable par la suite.
+En définitive, nous vous avons présenté le Battleship que nous souhaitons réaliser pour ce projet ainsi que son architecture. Ce travail nous a permis de faire des recherches plus approfondies sur le système que nous mettons en place. De ce fait, nous avons pu présenter et faire usage des patrons précédents qui sont bien établis dans le milieu et propices à ce que nous voulons développer. La réalisation de notre jeu vidéo s'est donc entamée sur des bases solides et claires pour garantir une fonctionnalité favorable par la suite.
 
 \newpage
 \bibliographystyle{plain}
