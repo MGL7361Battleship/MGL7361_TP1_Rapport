@@ -186,9 +186,6 @@ Cette structure n'est pas complète pour alléger le texte, mais elle contient l
 
 Cette approche permet d'organiser la mémoire de façon beaucoup plus optimale, en termes d'accès à la mémoire et de cache au niveau du CPU, ce qui peut être très important dans un jeu vidéo. Tel que démontré dans l'article \cite{DOD_Game_Engine}, le moteur de jeu vidéo Ogre 3D l'a appris à ses dépens. En effet, la version 1.0 de celui-ci était largement orientée-objet et à force de grossir en complexité, les performances ont diminué. La version 2.0 a tenté de corriger le tir avec une approche plus centrée sur les données. Bien entendu, comme nous utilisons un langage de programmation qui ne permet pas de contrôler la mémoire, ces avantages seront perdus.
 
-\subsection{Implémentation}
-
-L'implémentation du système n'a pas encore été entamée.
 
 \subsection{Déploiement}
 
@@ -283,46 +280,35 @@ Pour notre projet, nous avons imaginé un déploiement en microservices avec l'�
 
 \section{Fonctionnalités développées}
 % : ~ 1 page
-% enregistrer un joueur *
-% obtenir le nom des bateaux *
-% positionner un bateau sur la grille *
-% enlever un bateau
-% ajouter un bateau aléatoirement (*)
-% faire une rotation
-% indiquer qu'un joueur est prêt à commencer *
-% indiquer que le joueur veut terminer la partie
-% on peut attaquer une position *
-% obtenir l'état de la partie
 
-Actuellement, nous avons développé les fonctionnalités qui permettent de préparer et de commencer une partie. Ainsi, nous retrouvons celles qui suivent:
+En ce qui concerne l'implémentation du système, nous avons commencé par ce qui nous a semblé le plus sensé et en accord avec l'architecture et les patrons que nous avons abordé précédemment. Ainsi, les fonctionnalités qui ont été développées jusqu'à présent sont celles que nous avons définies comme étant celles de base au fonctionnement de notre Battleship. De ce fait, ces fonctionnalités ont un rapport avec la préparation et le commencement d'une partie. Nous retrouvons donc les suivantes:
 
-- Enregister un joueur: le joueur sera en mesure de se créer un profil joueur et de s'enregistrer pour pouvoir jouer quand il le souhaite.
+- Obtenir les informations: Nous sommes en mesure d'obtenir les informations de la grille et des joueurs enregistrés (indexes, états des cases, etc). Ces fonctions se révéleront importantes par la suite lorsque nous traiterons du fonctionnement du jeu concrètement.
+
+- Enregistrer un joueur: le joueur sera en mesure de se créer un profil joueur et de s'enregistrer pour pouvoir jouer quand il le souhaite. De plus, il aura la possibilité de modifier son nom si il le souhaite.
 
 - Obtenir le nom des bateaux: le joueur aura accès au nom des différents types de bateaux afin de sélectionner celui qu'il souhaite.
 
-- Positionner un bateau sur la grille: le joueur sera en mesure de placer le bateau sélectionné sur la grille. Il sera placé obligatoirement à l'horizontal pour l'instant.
+- Positionnement des bateaux: en ce qui concerne cette partie, nous avons développé tout ce qui serait en accord avec le fait que le joueur place le bateau sélectionné sur la grille. Ainsi, nous avons la fonction de positionnement du bateau avec la possibilité de modifier cette position par la suite. De plus, le joueur sera en mesure de changer l'orientation du bateau (horizontal ou vertical) à son goût. Nous nous sommes assuré d'avoir une fonction qui vérifie que les cases où le bateau sera placé soient vides ainsi qu'une autre qui présente au joueur les places des bateaux qu'il a installé afin qu'il puisse garder une vue sur tout ça pour ses prochains placements et avant la validation pour démarrer la partie.
 
-- Indiquer qu'un joueur est prêt à commencer: nous voulons qu'un joueur puisse dire qu'il est prêt à commencer la partie après avoir placé ses bateaux sur la grille. Une fois les deux joueurs prêts la partie pourra commencer.
 
-- Attaquer une position: nous souhaitons qu'un joueur puisse lancer une attaque sur une position. Nous obtiendrons un message pour savoir si l'attaque a touché une cible ou non.
-
-Nous avons choisi ces fonctionnalités car elles nous ont semblé être celles "de base" pour commencer notre Battleship mais importantes pour qu'il puisse fonctionner efficacement par la suite et pour qu'il soit testable. En effet, nous avons jugé que cela ne serait pas le cas si nous avions commencé par les fonctionnalités traitant du combat (le jeu en lui même) ainsi que de celles touchant à la fin d'une partie.
+Nous avons choisi ces fonctionnalités car elles nous ont semblé être celles étant les plus logiques pour commencer notre jeu Battleship. Elles sont aussi les plus importantes pour que celui-ci puisse fonctionner efficacement par la suite et pour qu'il soit testable. En effet, nous avons jugé que cela ne serait pas le cas si nous avions commencé par les fonctionnalités traitant du combat (le jeu en lui même) ainsi que de celles touchant à la fin d'une partie. Nous avons donc tenu à respecter un certain ordre ainsi qu'une organisation correcte.
 
 \section{Organisation du travail d'équipe}
 % : ~ 1/2 page
 
-Pour organiser notre travail d'équipe, nous avons établis des rencontres pour coder ensemble étant donné que ce langage est une nouveauté pour nous. Cela facilitera l'avancement de l'écriture du code, nous permettra de nous aider mutuellement directement sans avoir à patienter que l'autre coéquipier soit disponible pour répondre aux questions pour être débloqué. Cette méthode nous soutiendra également à l'apprentissage du langage pour une meilleure efficacité dans la réalisation du projet.
+Pour organiser notre travail d'équipe, nous avons établi des rencontres pour coder ensemble étant donné que ce langage est une nouveauté pour nous. Cela facilitera l'avancement de l'écriture du code, nous permettra de nous aider mutuellement directement sans avoir à patienter que l'autre coéquipier soit disponible pour répondre aux questions pour être débloqué. Cette méthode nous soutiendra également à l'apprentissage du langage pour une meilleure efficacité dans la réalisation du projet.
 
-Pour la rédaction du rapport et la préparation de la présentation, nous avons décidé de nous séparer les tâches afin que chacun de nous rédige dans le rapport. Bien entendu, nous nous sommes assuré d'avoir pris connaissance et d'avoir validé les informations que l'équipier a mis dans les documents. De plus, nous avons décidé de faire ces rédactions au fur et à mesure des idées que nous avons eu ainsi que de l'avancement du projet pour ne pas avoir à être débordés avant la fin du délai imparti pour le travail. Nous nous assurons alors d'apporter les bonnes modifications au besoin et les informations en plus pour ne rien oublier.
+Pour la rédaction du rapport et la préparation de la présentation, nous avons décidé de nous séparer les tâches afin que chacun de nous rédige dans le rapport. Bien entendu, nous nous sommes assuré d'avoir pris connaissance et d'avoir validé les informations que l'équipier a mis dans les documents. De plus, nous avons décidé de faire ces rédactions au fur et à mesure des idées que nous avons eues ainsi que de l'avancement du projet pour ne pas avoir à être débordés avant la fin du délai imparti pour le travail. Nous nous assurons alors d'apporter les bonnes modifications au besoin et les informations en plus pour ne rien oublier.
 
 \section{Stratégies pour assurer la qualité du projet}
 % : ~ 1 page
 
-Afin d'assurer la qualité de notre projet, nous avons mis en place plusieurs stratégies pour être sûrs que le Battleship que nous proposons soit le plus efficace et fonctionnel possible. Premièrement, nous avons élaboré des tests qui nous permettront de vérifier que les fonctionnalités implémentées fonctionnent correctement et de la façon correcte.
+Afin d'assurer la qualité de notre projet, nous avons mis en place quelques stratégies pour être sûrs que le Battleship que nous proposons soit le plus efficace et fonctionnel possible. Premièrement, nous avons développé des tests qui nous permettront de vérifier que les fonctionnalités implémentées fonctionnent correctement. Ainsi, pour toutes les fonctions que nous avons présenté ci-dessus, on peut retrouver les tests correspondants. Cela s'est avéré très utile pour le développement jusqu'à présent mais ils seront utiles également par la suite afin de nous assurer que nous ne porterons pas de modifications ou d'ajouts qui feront ces fonctionnalités avoir des erreurs.
 
-Ensuite, nous avons réfléchis le plus possible à la manière dont nous allions concevoir notre projet: comment nous allons procéder, avec quelles fonctionnalités commencer, quelles sont celles les plus importantes et nécessaires pour qu'on puisse tester le Battleship et que nous ne soyons pas penché sur celles qui sont complémentaires voire accéssoires. Cette stratégie facilite l'avancement du projet puisque nous n'aurons pas à recommencer ou à modifier nos plans au cas où nous constatons qu'une fonctionnalité que nous implémentons n'est pas primordiale ou fondammental à notre projet. Cela nous assistera également à faire moins d'erreurs par la suite lorsque nous traiterons le code source.
+Ensuite, nous avons réfléchis le plus possible à la manière dont nous allions concevoir notre projet: comment nous allons procéder, avec quelles fonctionnalités commencer, quelles sont celles les plus importantes et nécessaires pour qu'on puisse tester le Battleship et que nous ne soyons pas penchés sur celles qui sont complémentaires voire accessoires. Cette stratégie facilite l'avancement du projet puisque nous n'aurons pas à recommencer ou à modifier nos plans au cas où nous constatons qu'une fonctionnalité que nous implémentons n'est pas primordiale ou fondamentale à notre projet. Cela nous aidera également à faire moins d'erreurs par la suite lorsque nous traiterons le code source.
 
-De plus, lors de l'écriture du code, nous avons ajouté les fonctionnalités l'une après l'autre après avoir vérifié qu'elle soit terminée complètement. Cette stratégie s'est avérée d'autant plus efficace et concrète pour nous étant donné que, comme vu précédemment, nous avons choisi de travailler ensemble sur la création du code source pour une meilleure compréhension et un meilleur apprentissage.
+De plus, lors de l'écriture du code, nous avons ajouté les fonctionnalités l'une après l'autre après avoir vérifié qu'elle soit terminée. Cette stratégie s'est avérée d'autant plus efficace et concrète pour nous étant donné que, comme nous avons vu précédemment, nous travaillons ensemble sur la création du code source pour une meilleure compréhension et un meilleur apprentissage.
 
 \section{Conclusion}
 
