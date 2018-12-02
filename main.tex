@@ -186,7 +186,6 @@ Cette structure n'est pas complète pour alléger le texte, mais elle contient l
 
 Cette approche permet d'organiser la mémoire de façon beaucoup plus optimale, en termes d'accès à la mémoire et de cache au niveau du CPU, ce qui peut être très important dans un jeu vidéo. Tel que démontré dans l'article \cite{DOD_Game_Engine}, le moteur de jeu vidéo Ogre 3D l'a appris à ses dépens. En effet, la version 1.0 de celui-ci était largement orientée-objet et à force de grossir en complexité, les performances ont diminué. La version 2.0 a tenté de corriger le tir avec une approche plus centrée sur les données. Bien entendu, comme nous utilisons un langage de programmation qui ne permet pas de contrôler la mémoire, ces avantages seront perdus.
 
-
 \subsection{Déploiement}
 
 Le graphique suivant montre comment l'application sera exécutée dans un environnement de production. Tout d'abord, l'application sera divisée en deux parties. La première partie contient les services web. La deuxième partie fait la gestion des données de l'application. Comme la partie comportementale et la structure de données ont été bien découplées dès le début, il sera très facile de réorganiser les services à notre guise. Par exemple, il sera possible de déployer l'application en monolithe pour commencer puis de le séparer en plusieurs microservices pour s'adapter à la charge. Il sera aussi possible de dupliquer les services et d'augmenter le nombre de machines. Pour la première itération, tous les services sont déployés sur une seule et même machine virtuelle. Les joueurs s'y connectent à partir de leur propre PC.
@@ -278,6 +277,44 @@ Au travers de cet exercice, nous voulions également accroître nos connaissance
 Ainsi, Phoenix nous a paru comme le meilleur moyen de mettre en place notre Battleship en Elixir.
 Pour notre projet, nous avons imaginé un déploiement en microservices avec l'état de l'application dans MongoDB qui est une base de données NoSQL orienté document contenant ses données en JSON. En effet, le state de notre application en JSON s'accorde parfaitement avec MongoDB et présente correctement les éléments que nous avons définis dans notre architecture. Les containers ont été pensés pour l'exécution de services que nous allons mettre en oeuvre avec Elixir.
 
+\section{Implémentation des patrons de conception}
+% : ~ 2-3 page
+
+ Afin d'implémenter le patron SOA, nous avons défini l'état de notre Battleship sous le format JSON pour respecter le concept de la structure de base contenant les attributs du joueur. Concrètement, nous obtenons donc le résultat suivant:
+
+\begin{center}
+\includegraphics[scale = 0.75]{implementation-soa.PNG} \\
+Liste des fonctions que les joueurs pourront utiliser.\cite{data_oriented_design}
+\\[1.0 cm]
+\end{center}
+
+Ainsi, nous avons notre "monde" représentant notre programme Battleship dans son ensemble. Le plus important est de comprendre les informations de "joueur". En effet, nous avons Joueur 1 et Joueur 2 qui sont respectivement associé aux indexes 0 et 1. En conséquence, dans les autres arrays ("case touchées", "case manquees", "torpilleur", etc), les données qui seront attribuées à l'indexe 0 seront associées à Joueur 1 tandis que celles en indexe 1 correspondront à Joueur 2.
+En définitive, comme nous l'avons expliqué lors de la présentation du patron SOA, au lieu d'avoir notre Joueur 1 avec toutes les données qui lui sont associées dans sa structure, nous avons notre monde avec les informations et nous associons les données aux joueurs selon l'indexe où les données sont enregistrées.
+
+Pour l'implémentation du reste des patrons vu précédemment, nous avons choisi de recourir à l'utilisation d'agents et d'api: les api vont faire appel aux agents qui exécuteront les fonctions nécessaires pour mettre à jour l'état du jeu dans le fichier JSON présenté plus tôt. Nous développerons par la suite les fonctions que nous avons développé pour notre application, mais nous pouvons déjà lister les fonctions principales qui sont celles que les joueurs pourront utiliser pour jouer:
+
+\begin{center}
+\includegraphics[scale = 0.75]{implementation-listeApi.PNG} \\
+Liste des fonctions que les joueurs pourront utiliser.\cite{data_oriented_design}
+\\[1.0 cm]
+\end{center}
+
+Tel qu'établi précédemment, les joueurs pourront utiliser les fonctions et effectuer des actions dans le Battleship grâce aux api instaurés et qui feront appel aux agents. Voici, un exemple plus concret de leur implémentation dans le code:
+
+\begin{center}
+\includegraphics[scale = 0.5]{implementation-apiController.PNG} \\
+Exemple de quelques controlleurs d'api.\cite{data_oriented_design}
+\\[1.0 cm]
+\end{center}
+
+\begin{center}
+\includegraphics[scale = 0.5]{implementation-agents.PNG} \\
+Exemple de développement des agents.\cite{data_oriented_design}
+\\[1.0 cm]
+\end{center}
+
+Une fois la fonction réalisée, l'état du jeu est mis à jour dans le cas où une modification à été effectuée (ce qui ne serait pas le cas pour obtenir etat partie par exemple).
+
 \section{Fonctionnalités développées}
 % : ~ 1 page
 
@@ -294,12 +331,31 @@ En ce qui concerne l'implémentation du système, nous avons commencé par ce qu
 
 Nous avons choisi ces fonctionnalités car elles nous ont semblé être celles étant les plus logiques pour commencer notre jeu Battleship. Elles sont aussi les plus importantes pour que celui-ci puisse fonctionner efficacement par la suite et pour qu'il soit testable. En effet, nous avons jugé que cela ne serait pas le cas si nous avions commencé par les fonctionnalités traitant du combat (le jeu en lui même) ainsi que de celles touchant à la fin d'une partie. Nous avons donc tenu à respecter un certain ordre ainsi qu'une organisation correcte.
 
+Afin d'achever notre prototype, nous avons continué avec le développement des fonctions de la partie en elle-même en général. De ce fait, nous avons les principales tâches pour que le jeu soit faisable et que deux joueurs puissent réaliser des parties. Ainsi, nous retrouvons ces nouvelles fonctionnalités:
+
+- Enlever un bateau de la grille: lors de la préparation de la partie, un joueur à la possibilité de retirer un bateau de la grille pour le replacer où il le souhaite.
+
+- Attaquer une position: une fois que la partie a débuté, les joueurs peuvent attaquer une case de la grille pour tenter de toucher un bateau adverse.
+
+- Calculer les positions que prendrons un bateau: en supplément à la fonction positionner un bateau que nous avions développé précédemment, ici, nous prenons la position de la première case, le nombre de cases du bateau à placer et l'orientation qu'on souhaite lui donné. Ainsi, nous sommes en mesure de vérifier que des cases du bateau ne soient pas hors de la grille lors du placement de ce dernier.
+
+- Obtenir le nombre de cases dont disposent un bateau: nous permet de savoir combien de cases le bateau que nous souhaitons placer contient.
+
+- Obtenir l'état des cases d'un bateau: nous permet de savoir si un bateau est intact, a été touché (si oui, quelles sont les cases touchées) ou coulé (si toutes les cases de ce dernier sont touchées).
+
+- Obtenir l'état de la partie: lors de la partie, le joueur peut voir la liste des cases touchées, manquées, ainsi que l'état de ses bateau (fonctionnalité précédente).
+
+- Déterminer le joueur gagnant: à la fin de la partie, nous déterminons le joueur qui a coulé tout les bateaux de son adversaire.
+
 \section{Organisation du travail d'équipe}
 % : ~ 1/2 page
 
 Pour organiser notre travail d'équipe, nous avons établi des rencontres pour coder ensemble étant donné que ce langage est une nouveauté pour nous. Cela facilitera l'avancement de l'écriture du code, nous permettra de nous aider mutuellement directement sans avoir à patienter que l'autre coéquipier soit disponible pour répondre aux questions pour être débloqué. Cette méthode nous soutiendra également à l'apprentissage du langage pour une meilleure efficacité dans la réalisation du projet.
 
 Pour la rédaction du rapport et la préparation de la présentation, nous avons décidé de nous séparer les tâches afin que chacun de nous rédige dans le rapport. Bien entendu, nous nous sommes assuré d'avoir pris connaissance et d'avoir validé les informations que l'équipier a mis dans les documents. De plus, nous avons décidé de faire ces rédactions au fur et à mesure des idées que nous avons eues ainsi que de l'avancement du projet pour ne pas avoir à être débordés avant la fin du délai imparti pour le travail. Nous nous assurons alors d'apporter les bonnes modifications au besoin et les informations en plus pour ne rien oublier.
+
+
+Afin de finaliser notre prototype, nous avons décidé de garder la même organisation que nous avions établis étant donné qu'elle nous a été profitable pour progresser convenablement et efficacement. Nous avons juste dû planifier la manière dont nous allions faire notre démo et ce qui serait intéressant de montrer. Chaque idée a été discutée en équipe pour que tout se déroule pour le mieux.
 
 \section{Stratégies pour assurer la qualité du projet}
 % : ~ 1 page
